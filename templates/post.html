@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+<nav class="navbar fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">RMS Titanic</a>
+</nav>
+<h2>{{ the_title }}</h2>
+{% for content in the_contents %}
+<div class="card w-75">
+    <div class="card-body">
+      <h5 class="card-title">{{content}}</h5>
+      <p class="card-text">Элемент</p>
+      <a href="post/{{content}}" class="btn btn-primary">Перейти к статье</a>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}
