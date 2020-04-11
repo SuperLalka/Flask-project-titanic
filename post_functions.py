@@ -7,7 +7,8 @@ def post_iteration():
 
 def post_info():
     info = []
-    with open("templates/allposts.log") as file:
-        for post in file:
-            info.append(post)
+    file = open("templates/allposts.log", "r")
+    for line in file:
+        for word in line.split("|")[:-1]:
+            info.append(word.split("^"))
     return info
