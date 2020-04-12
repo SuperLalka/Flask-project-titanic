@@ -1,22 +1,14 @@
-def post_iteration():
-    import os
-    posts = []
-    for post in os.listdir(path="templates/post"):
-        posts.append(post)
-    return posts
-
-def post_info(file):
-    address = file
+def post_info():
+    from post_list import posts
     post = []
-    with open("templates/post/%s" %file, "r") as file:
-        for line in file:
-            if "<title>" in line:
-                title = line.strip(" ")
-                a = title.index(">")
-                b = title.rindex("<")
-                post.append(title[a+1:b])
-            if "description" in line:
-                description = line.strip(" ")
-                post.append(description.split('"')[3])
-    post.append(address.split(".")[0])
+    for line in posts:
+        post.append(line)
+    return post
+
+def info_search(key, file):
+    post = []
+    for line in file:
+        if key in line:
+            post.append(line)
+            break
     return post

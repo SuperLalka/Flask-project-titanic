@@ -1,25 +1,21 @@
-from flask import Flask, render_template, escape
-from post_functions import post_iteration, post_info
+from flask import Flask, render_template
+from post_functions import post_info, info_search
 
 app = Flask(__name__)
 
 @app.route('/')                                             
 def content_page() -> 'html':
-    contents = post_iteration()
-    info = []
-    for post in contents:
-        info.append(post_info(post))
+    info = post_info()
     return render_template('post.html',
-                           the_title='Конструкция Титаника',
-                           the_contents = contents,
                            the_info = info)
 
                                
 @app.route('/post/<name>')
 def post(name) -> 'html':
-    return render_template('post/{}.html' .format(name),
-                           the_title='{}' .format(name),
-                           navbar = "Вернуться к содержанию")
+    info = info_search('%s' %name, post_info())
+    return render_template('page.html',
+                           navbar = "Вернуться к содержанию",
+                           the_info = info)
 
 
 if __name__ == '__main__':                      #проверка на локальность
