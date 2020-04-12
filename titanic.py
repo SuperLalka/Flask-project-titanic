@@ -6,7 +6,9 @@ app = Flask(__name__)
 @app.route('/')                                             
 def content_page() -> 'html':
     contents = post_iteration()
-    info = post_info()
+    info = []
+    for post in contents:
+        info.append(post_info(post))
     return render_template('post.html',
                            the_title='Конструкция Титаника',
                            the_contents = contents,
