@@ -18,7 +18,8 @@ def content_page() -> 'html':
 @app.route('/post/<name>')
 def post(name) -> 'html':
     return render_template('post/{}.html' .format(name),
-                           the_title='{}' .format(name))
+                           the_title='{}' .format(name),
+                           navbar = "Вернуться к содержанию")
 
 
 if __name__ == '__main__':                      #проверка на локальность
