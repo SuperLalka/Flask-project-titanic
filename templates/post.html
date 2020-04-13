@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
+{% for info in the_info %}
 <nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">RMS Titanic</a>
+  <a class="navbar-brand" href="/">Вернуться к содержанию</a>
+  <h2>{{ info[0] }}</h2>
 </nav>
-<h2>Конструкция Титаника</h2>
-{% for item in the_info %}
-<div class="card w-75">
-    <div class="card-body">
-      <h5 class="card-title">{{item[0]}}</h5>
-      <p class="card-text">{{item[2]}}</p>
-      <a href="post/{{item[1]}}" class="btn btn-primary">Перейти к статье</a>
-    </div>
-</div>
+{{ info[3] }}
 {% endfor %}
 {% endblock %}

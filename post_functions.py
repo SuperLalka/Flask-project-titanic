@@ -5,7 +5,7 @@ def post_info():
         post.append(line)
     return post
 
-def info_search(key, file):
+def get_post(key, file):
     post = []
     for line in file:
         if key in line:
