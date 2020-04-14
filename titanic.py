@@ -1,16 +1,17 @@
 from flask import Flask, render_template
-from post_functions import post_info, get_post, list_pages
+from post_functions import post_info, get_post, list_pages, page_distribution
 
 app = Flask(__name__)
 
 @app.route('/')
 @app.route('/<int:page>')
-def content_page() -> 'html':
+def content_page(page=0) -> 'html':
     info = post_info()
     pages = list_pages(len(info))
+    posts = page_distribution(info, page)
     return render_template('root_page.html',
-                           the_info = info,
-                           the_pages = pages)
+                           the_pages = pages,
+                           the_posts = posts)
 
                                
 @app.route('/post/<name>')

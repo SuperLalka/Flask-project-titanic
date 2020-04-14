@@ -4,12 +4,12 @@
   <a class="navbar-brand" href="#">RMS Titanic</a>
 </nav>
 <h2>Конструкция Титаника</h2>
-{% for item in the_info %}
+{% for post in the_posts %}
 <div class="card w-75">
     <div class="card-body">
-      <h5 class="card-title">{{ item[0] }}</h5>
-      <p class="card-text">{{ item[2] }}</p>
-      <a href="post/{{ item[1] }}" class="btn btn-primary">Перейти к статье</a>
+      <h5 class="card-title">{{ post[0] }}</h5>
+      <p class="card-text">{{ post[2] }}</p>
+      <a href="post/{{ post[1] }}" class="btn btn-primary">Перейти к статье</a>
     </div>
 </div>
 {% endfor %}
