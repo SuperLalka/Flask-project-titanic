@@ -7,10 +7,17 @@
 {% for item in the_info %}
 <div class="card w-75">
     <div class="card-body">
-      <h5 class="card-title">{{item[0]}}</h5>
-      <p class="card-text">{{item[2]}}</p>
-      <a href="post/{{item[1]}}" class="btn btn-primary">Перейти к статье</a>
+      <h5 class="card-title">{{ item[0] }}</h5>
+      <p class="card-text">{{ item[2] }}</p>
+      <a href="post/{{ item[1] }}" class="btn btn-primary">Перейти к статье</a>
     </div>
 </div>
 {% endfor %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% for page in the_pages %}
+    <li class="page-item"><a class="page-link" href="{{ page }}">{{ page }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
 {% endblock %}
