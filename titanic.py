@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from post_functions import post_info, get_post, list_pages, page_distribution
+from post_functions import get_content, list_pages, page_distribution, post_info, post_pictures
 
 app = Flask(__name__)
 
@@ -16,10 +16,12 @@ def content_page(page=0) -> 'html':
                                
 @app.route('/post/<name>')
 def post(name) -> 'html':
-    info = get_post(name, post_info())
+    info = get_content(name, post_info())
+    pictures = post_pictures(name)
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
-                           the_info = info)
+                           the_info = info,
+                           the_pictures = pictures)
 
 
 if __name__ == '__main__':                      #проверка на локальность

@@ -1,20 +1,22 @@
 body {
-  font-family:      Verdana, Geneva, Arial, sans-serif;
-  font-size:        medium;
   background-color: #8c8cd230!important;
-  margin-top:       5%;
-  margin-bottom:    5%;
-  margin-left:      10%;
-  margin-right:     10%;
-  border:           1px dotted gray;
-  padding:          10px 10px 10px 10px;
-}
-h2 {
-  font-size:        150%;
+  margin-top: 50px!important;
+  border: 1px dotted gray;
+  padding: 10px 10px 10px 10px;
 }
 .text-block {
-  margin-top: 70px;
+  margin: 30px;
 }
 nav {
   color: white;
+}
+.carousel {
+  height: 500px;
+}
+.carousel-inner {
+  background: radial-gradient(#dbdeec, #e9e9f6);
+}
+.carousel-inner img {
+  height: 500px;
+  margin: auto;
 }
