@@ -26,9 +26,10 @@ def post(name) -> 'html':
 
 
 @app.route('/tags/<tag>')
-def tag_page(tag="RMS Titanic") -> 'html':
-    tag_posts = get_posts_by_tags(tag)
-    pages = list_pages(len(tag_posts))
+@app.route('/tags/<tag>/<int:page>')
+def tag_page(tag="RMS Titanic", page=0) -> 'html':
+    tag_posts = page_distribution(get_posts_by_tags(tag), page)
+    pages = list_pages(len(get_posts_by_tags(tag)))
     return render_template('tag_page.html',
                            the_tag_posts = tag_posts,
                            the_tag = tag,
