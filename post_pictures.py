@@ -1,14 +1,10 @@
 pictures = {
     "deck": [
-        "https://img-s3.onedio.com/id-58f9d37620852a9211007922/rev-0/w-635/f-jpg-webp/s-834c157252260990e4835cb7986a7d1ef26f6084.webp",
-        "https://frm-wows-ru.wgcdn.co/wows_forum_ru/monthly_2018_05/Titanic1.thumb.jpg.2f155762a01bb182c99bcd30fda33bba.jpg",
-        "https://avatars.mds.yandex.net/get-zen_doc/1336031/pub_5afdc0db8c8be3f9b535478e_5b01cad2dd2484a8c9b880b3/scale_1200"],
+        "https://frm-wows-ru.wgcdn.co/wows_forum_ru/monthly_2018_05/Titanic1.thumb.jpg.2f155762a01bb182c99bcd30fda33bba.jpg"],
     "bulkheads": [
-        "https://lh3.googleusercontent.com/proxy/eVBqKyThdU-qYW3nUUIoGoG1Q76ugJo7JHH1FgBYatv0eyHPdSWfnCrQwgiQtYO6sKso70RihA8XSZjtPrSmrPcYvkIUvWjocZlMQLCSVpz2WsPE7tQlVPZ5CQ",
-        "https://pics.livejournal.com/tov_tob/pic/007c59ya",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Titanic_side_plan_annotated_Russian.png/1920px-Titanic_side_plan_annotated_Russian.png"],
+        "https://lh3.googleusercontent.com/proxy/KGTeVDfJvg_xy67hx0n47IpL2CgGzfWwVB4fXLsfUx_ozBv9_nFm577DcTrS3fuj0_TlWGSb0pIoWNg",
+        "https://pics.livejournal.com/tov_tob/pic/007c59ya"],
     "double_buttom": [
-        "https://lh3.googleusercontent.com/proxy/QmJVJyobbmohfvrgR3BaLcBYcfW6purltR_XEolb6IWDmP_PLfEdmOll6_YCHR1GmkkJYC3TkSZ-YkXFlRSIOdclPvI5ijk0DFZqJgHmkSA",
         "http://titanicsociety.ru/wp-content/uploads/2016/10/8723b8a5-2103-4467-8dec-95946617c21a.jpg",
         "http://titanicsociety.ru/wp-content/uploads/2016/10/halfplan1.jpg"],
     "masts": [
@@ -49,6 +45,7 @@ pictures = {
         "https://ic.pics.livejournal.com/alisha_96/16901527/1256493/1256493_original.jpg"],
     "water_supply": [
         "https://klauzura.ru/wp-content/uploads/2012/09/Ris.-32.-Plavatelnyi-bassein-I-klassa-na-Olimpike-.-1911-g.jpg",
+        "https://lh3.googleusercontent.com/proxy/cYOe2G37arhteh-TQ5Tibf0ZQGBIM8ymHcT-ywniAV5ZhdKNYD4cD2EHYFa3tyAEAJr9hCVnQwrMqzP-3Kg_6EQsSC0Bbhm4sbZl96VpB8OEJ0Fka6qqwZkGfQ",
         "https://scontent-frx5-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/83936382_222525862112226_6987096418054163555_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&_nc_cat=106&_nc_ohc=UD_GaChy1okAX-OBw-X&oh=c20f5ec4b7a9db3823f350ae3e7c2a20&oe=5EDD155A",
         "https://www.vestnik.az/storage/2018/08/17/1b68088bb7d8bf9e99d3dfccf7790394.jpg"],
     "dinghies": [
@@ -62,7 +59,8 @@ pictures = {
     "crew": [
         "https://img-s3.onedio.com/id-58f9d37620852a9211007920/rev-0/w-635/f-jpg-webp/s-fec321d0df1811a24919f3c24ccb3ac9944f6a88.webp",
         "https://img-s3.onedio.com/id-58f9d37620852a921100792c/rev-0/w-635/f-jpg-webp/s-2d17a9deb1015bedd9988c7f2e14256fc5ba16de.webp",
-        "https://cdn.sm-news.ru/wp-content/uploads/2019/08/27/1547536175-21.jpg"],
+        "https://cdn.sm-news.ru/wp-content/uploads/2019/08/27/1547536175-21.jpg",
+        "https://img-fotki.yandex.ru/get/6206/46980979.47/0_99618_a7ccd54d_orig"],
     "public_premises": [
         "https://s3.nat-geo.ru/images/2019/4/10/6f7012d38aeb4a70b804649c209f7ed2.max-2000x1000.jpg",
         "https://s3.nat-geo.ru/images/2019/4/10/ed91465d89704a7cbfeec853a164f2e4.max-2000x1000.jpg",
