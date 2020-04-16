@@ -2,13 +2,13 @@ pictures = {
     "deck": [
         "https://frm-wows-ru.wgcdn.co/wows_forum_ru/monthly_2018_05/Titanic1.thumb.jpg.2f155762a01bb182c99bcd30fda33bba.jpg"],
     "bulkheads": [
-        "https://lh3.googleusercontent.com/proxy/KGTeVDfJvg_xy67hx0n47IpL2CgGzfWwVB4fXLsfUx_ozBv9_nFm577DcTrS3fuj0_TlWGSb0pIoWNg",
+        "http://cn15.nevsedoma.com.ua/photo/11/1124/196_files/1-02.jpg",
         "https://pics.livejournal.com/tov_tob/pic/007c59ya"],
     "double_buttom": [
         "http://titanicsociety.ru/wp-content/uploads/2016/10/8723b8a5-2103-4467-8dec-95946617c21a.jpg",
         "http://titanicsociety.ru/wp-content/uploads/2016/10/halfplan1.jpg"],
     "masts": [
-        "https://lh3.googleusercontent.com/proxy/JXe5uXa3Pmr3aqkXxATOHLVkEdZ4eIV2pK4XIY6uJvQSCcy5CY1VG-EdHLPYo_bsMMN8b3CswP-X0rCzSx51mv4S1tGDVRE",
+        "http://cn15.nevsedoma.com.ua/photo/11/1124/196_files/000.jpg",
         "https://cdn.shortpixel.ai/client/q_lossless,ret_img/https://onthedeep.com/wp-content/uploads/2019/08/titanic_leaving_april_2nd-678x381.jpg",
         "http://titanicsociety.ru/wp-content/uploads/2016/10/WST-6-2.jpg"],
     "pipes": [

@@ -13,21 +13,11 @@
     <div class="col-10">
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-          {% if the_pictures|length == 1  %}
-          <div class="carousel-item active">
-            <img src="{{ the_pictures[0] }}" class="d-block max-vw-100 rounded-lg" alt="...">
-          </div>
-          {% endif %}
-          {% if the_pictures|length >= 2  %}
-          <div class="carousel-item active">
-            <img src="{{ the_pictures[0] }}" class="d-block max-vw-100 rounded-lg" alt="...">
-          </div>
-          {% for pictures in the_pictures[1:] %}
-          <div class="carousel-item">
+          {% for pictures in the_pictures %}
+          <div class="carousel-item {% if pictures == the_pictures|first %}active{% endif %}">
             <img src="{{ pictures }}" class="d-block max-vw-100 rounded-lg" alt="...">
           </div>
           {% endfor %}
-          {% endif %}
         </div>
         {% if the_pictures|length >= 2  %}
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -44,4 +34,13 @@
   </div>
 </div>
 {% endif %}
+<nav class="navbar navbar-light bg-light">
+  <form class="form-inline">
+    {% for tags in the_tags %}
+    <a href=" /tags/{{ tags }}">
+      <button class="btn btn-outline-success" type="button">{{ tags }}</button>
+    </a>
+    {% endfor %}
+  </form>
+</nav>
 {% endblock %}
