@@ -55,3 +55,12 @@ def get_tags_for_post(post):
         for item in items:
             if "tags" in item:
                 return item["tags"]
+
+def post_search(name):
+    """Осуществляет поиск по введённому значению по всему содержанию списков постов"""
+    found = []
+    for items in post_info():
+        for item in items:
+            if name in item and items not in found:
+                found.append(items)
+    return found
