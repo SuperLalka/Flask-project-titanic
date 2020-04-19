@@ -11,7 +11,7 @@ def content_page(page=0) -> 'html':
     return render_template('root_page.html',
                            the_pages = pages,
                            the_posts = posts,
-                           the_titles = "RMS Titanic")
+                           the_title = "RMS Titanic")
 
 @app.route('/post/<name>')
 def post(name) -> 'html':
@@ -22,7 +22,8 @@ def post(name) -> 'html':
                            navbar = "Вернуться к содержанию",
                            the_info = info,
                            the_pictures = pictures,
-                           the_tags = tags)
+                           the_tags = tags,
+                           the_title = "%s" %get_content(name, post_info())[0][0])
 
 @app.route('/tags/<tag>')
 @app.route('/tags/<tag>/<int:page>')
@@ -31,18 +32,19 @@ def tag_page(tag="RMS Titanic", page=0) -> 'html':
     pages = list_pages(len(get_posts_by_tags(tag)))
     return render_template('tag_page.html',
                            the_tag_posts = tag_posts,
+                           the_pages = pages,
                            the_tag = tag,
-                           the_pages = pages)
+                           the_title = "Поиск по тегу %s" %tag)
 
 @app.route('/search', methods=["POST"])
 def search_page() -> 'html':
-    titles = request.form["search_word"]
+    title = request.form["search_word"]
     posts = post_search(request.form["search_word"])
     pages = list_pages(len(posts))
     return render_template('root_page.html',
                            the_posts = posts,
                            the_pages = pages,
-                           the_titles = "Поиск по значению %s" %titles)
+                           the_title = "Поиск по значению %s" %title)
 
 if __name__ == '__main__':                      #проверка на локальность
     app.run(debug=True)

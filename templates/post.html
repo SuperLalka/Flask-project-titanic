@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% block body %}
 {% for info in the_info %}
-<nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">Вернуться к содержанию</a>
-  <h2>{{ info[0] }}</h2>
-  <form class="form-inline" method='POST' action='/search'>
-    <input class="form-control mr-sm-2" type="search" name="search_word" placeholder="Введите значение" aria-label="Search">
-    <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>
-  </form>
-</nav>
 <div class="text-block">{{ info[3] }}</div>
 {% endfor %}
 {% if the_pictures %}
