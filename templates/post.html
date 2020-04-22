@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block body %}
-{% for info in the_info %}
-<div class="text-block">{{ info[3] }}</div>
-{% endfor %}
+<div class="text-block">{{ the_info[3] }}</div>
 {% if the_pictures %}
 <div class="container">
   <div class="row justify-content-center">
@@ -15,7 +13,7 @@
           </div>
           {% endfor %}
         </div>
-        {% if the_pictures|length >= 2  %}
+        {% if the_pictures|length >= 2 %}
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon bg-dark" aria-hidden="false"></span>
           <span class="sr-only">Previous</span>

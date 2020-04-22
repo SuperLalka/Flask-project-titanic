@@ -23,28 +23,29 @@ def post(name) -> 'html':
                            the_info = info,
                            the_pictures = pictures,
                            the_tags = tags,
-                           the_title = "%s" %get_content(name, post_info())[0][0])
+                           the_title = "%s" %get_content(name, post_info())[0])
 
 @app.route('/tags/<tag>')
 @app.route('/tags/<tag>/<int:page>')
 def tag_page(tag="RMS Titanic", page=0) -> 'html':
-    tag_posts = page_distribution(get_posts_by_tags(tag), page)
+    posts = page_distribution(get_posts_by_tags(tag), page)
     pages = list_pages(len(get_posts_by_tags(tag)))
     return render_template('tag_page.html',
-                           the_tag_posts = tag_posts,
+                           the_posts = posts,
                            the_pages = pages,
                            the_tag = tag,
                            the_title = "Поиск по тегу %s" %tag)
 
 @app.route('/search', methods=["POST"])
-def search_page() -> 'html':
-    title = request.form["search_word"]
-    posts = post_search(request.form["search_word"])
-    pages = list_pages(len(posts))
-    return render_template('root_page.html',
+@app.route('/search/<int:page>', methods=["POST"])
+def search_page(page=0) -> 'html':
+    req = request.form["search_word"]
+    posts = page_distribution(post_search(req), page)
+    pages = list_pages(len(post_search(req)))
+    return render_template('search_page.html',
                            the_posts = posts,
                            the_pages = pages,
-                           the_title = "Поиск по значению %s" %title)
+                           the_title = "Поиск по значению %s" %req)
 
 if __name__ == '__main__':                      #проверка на локальность
     app.run(debug=True)

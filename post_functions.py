@@ -18,7 +18,12 @@ def page_distribution(posts, num):
 
 def post_info():
     """Извлекает информацию из файла со списками постов"""
-    from post_list import posts
+    import csv
+    with open('post_list.csv') as f:
+        reader = csv.reader(f, delimiter='|')
+        posts = []
+        for row in reader:
+            posts.append(row)
     return posts
 
 def post_pictures(name):
@@ -30,12 +35,9 @@ def post_pictures(name):
 
 def get_content(key, file):
     """Получает информацию для страницы поста"""
-    post = []
     for line in file:
         if key in line:
-            post.append(line)
-            break
-    return post
+            return line
 
 def get_posts_by_tags(tag):
     """Возвращает список постов по тегу"""
@@ -43,18 +45,15 @@ def get_posts_by_tags(tag):
     for items in post_info():
         for item in items:
             if "tags" in item:
-                for values in item.values():
-                    for value in values:
-                        if value == tag:
-                            found.append(items)
+                if tag in item:
+                    found.append(items)
     return found
 
 def get_tags_for_post(post):
     """Возвращает список тегов поста"""
-    for items in post:
-        for item in items:
-            if "tags" in item:
-                return item["tags"]
+    for item in post:
+        if "tags" in item:
+            return item.split(";")[1:]
 
 def post_search(name):
     """Осуществляет поиск по введённому значению по всему содержанию списков постов"""

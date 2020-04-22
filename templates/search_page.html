@@ -2,7 +2,7 @@
 {% block href %}
 {% if the_pages|length >= 2 %}
 {% for page in the_pages %}
-<li class="page-item"><a class="page-link" href="{{ page }}">{{ page }}</a></li>
+<li class="page-item"><a class="page-link" href="/search/{{ page }}">{{ page }}</a></li>
 {% endfor %}
 {% endif %}
 {% endblock %}
