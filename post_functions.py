@@ -19,7 +19,7 @@ def page_distribution(posts, num):
 def post_info():
     """Извлекает информацию из файла со списками постов"""
     import csv
-    with open('post_list.csv') as f:
+    with open('post_list.csv', encoding='utf_8') as f:
         reader = csv.reader(f, delimiter='|')
         posts = []
         for row in reader:
