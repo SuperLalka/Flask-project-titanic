@@ -24,14 +24,16 @@ def post_info():
         posts = []
         for row in reader:
             posts.append(row)
-    return posts
+    return posts[1:]
 
-def post_pictures(name):
+def post_pictures(key):
     """Извлекает и привязывает изображения к постам"""
-    from post_pictures import pictures
-    for key,value in pictures.items():
-        if key == name:
-            return value
+    import csv
+    with open("post_pictures.csv", encoding='utf_8', newline='') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            if row[0] == key:
+                return row[1:]
 
 def get_content(key, file):
     """Получает информацию для страницы поста"""

@@ -1,3 +1,5 @@
+NUMBER_OF_POSTS_TO_ADD = 5
+
 def transliterate(name):
    """Транслитерация значения name"""
    slovar = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e',
@@ -17,7 +19,7 @@ def transliterate(name):
       name = name.replace(key, slovar[key])
    return name.lower()
 
-def added_pages(N):
+def added_pages(NUMBER_OF_POSTS_TO_ADD):
    """Cкрипт N раз загружает случайную статью из Википедии"""
    def down_pages():
       import requests
@@ -27,7 +29,11 @@ def added_pages(N):
       soup = BeautifulSoup(response.text, "html.parser")
       page_info = []
       page_info.append(soup.find("h1", class_="firstHeading").text)                 #Извлекает тайтл
-      page_info.append(transliterate(soup.find("h1", class_="firstHeading").text))  #Траснлитерирует тайтл для создания ссылки
+      def transliterate_for_link(soup):
+         """Траснлитерирует тайтл для создания ссылки"""
+         return transliterate(soup.find("h1", class_="firstHeading").text)
+      link = transliterate_for_link(soup)
+      page_info.append(link)
       def description_extraction(soup):
          """Извлекает описание"""
          description = soup.find("p").text
@@ -58,21 +64,27 @@ def added_pages(N):
          else:
             return tags.text
       page_info.append(tag_extraction(soup))                                        
-      def image_extraction(soup):
-         """Извлекает ссылки картинок"""
+      def image_extraction(soup, link):
+         """Извлекает ссылки картинок и записывает их в файл"""
          block = soup.findAll("img")
-         img_list = []
-         for img in block:
-            img_list.append(img.get('src'))
-         return img_list
-      img = image_extraction(soup)                                                  
+         if block:
+            img_list = [link]
+            for img in block:
+               img_list.append(img.get('src'))
+            with open("post_pictures.csv", "a", encoding='utf_8', newline='') as csv_file:
+               writer = csv.writer(csv_file)
+               writer.writerow(img_list)
+            return img_list
+         else:
+            return None
+      image_extraction(soup, link)                                                  
       return page_info
    import csv
-   for i in range(N):
+   for i in range(NUMBER_OF_POSTS_TO_ADD):
       data = down_pages()
       with open("post_list.csv", "a", encoding='utf_8', newline='') as csv_file:
          writer = csv.writer(csv_file, delimiter='|')
          writer.writerow(data)
    return "Success"
 
-added_pages(5)
+added_pages(NUMBER_OF_POSTS_TO_ADD)
