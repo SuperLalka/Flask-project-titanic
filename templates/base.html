@@ -8,7 +8,7 @@
 <body>
   <nav class="navbar fixed-top navbar-dark bg-dark">
     <a class="navbar-brand" href="/">{{ the_title }}</a>
-    <form class="form-inline" method='POST' action='/search'>
+    <form class="form-inline" method='get' action='/search'>
       <input class="form-control mr-sm-2" type="search" name="search_word" placeholder="Введите значение" aria-label="Search">
       <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>
     </form>

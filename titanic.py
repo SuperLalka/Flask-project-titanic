@@ -36,15 +36,16 @@ def tag_page(tag="RMS Titanic", page=0) -> 'html':
                            the_tag = tag,
                            the_title = "Поиск по тегу %s" %tag)
 
-@app.route('/search', methods=["POST"])
-@app.route('/search/<int:page>', methods=["POST"])
-def search_page(page=0) -> 'html':
-    req = request.form["search_word"]
+@app.route('/search')
+@app.route('/search<req><int:page>')
+def search_page(req="", page=0) -> 'html':
+    req = request.args["search_word"]
     posts = page_distribution(post_search(req), page)
     pages = list_pages(len(post_search(req)))
     return render_template('search_page.html',
                            the_posts = posts,
                            the_pages = pages,
+                           the_req = req,
                            the_title = "Поиск по значению %s" %req)
 
 if __name__ == '__main__':                      #проверка на локальность
