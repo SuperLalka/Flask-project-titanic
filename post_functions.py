@@ -1,3 +1,5 @@
+import csv
+
 POSTS_PER_PAGE = 10
 
 def list_pages(posts_num):
@@ -18,7 +20,6 @@ def page_distribution(posts, num):
 
 def post_info():
     """Извлекает информацию из файла со списками постов"""
-    import csv
     with open('post_list.csv', encoding='utf_8') as f:
         reader = csv.reader(f, delimiter='|')
         posts = []
@@ -28,7 +29,6 @@ def post_info():
 
 def post_pictures(key):
     """Извлекает и привязывает изображения к постам"""
-    import csv
     with open("post_pictures.csv", encoding='utf_8', newline='') as csv_file:
         reader = csv.reader(csv_file)
         for row in reader:
