@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/<int:page>')
 def content_page(page=0) -> 'html':
     pages = list_pages(len(post_info()))
-    posts = page_distribution(post_info(), page)
+    posts = page_distribution(post_info(), int(page))
     return render_template('root_page.html',
                            the_pages = pages,
                            the_posts = posts,
@@ -28,7 +28,7 @@ def post(name) -> 'html':
 @app.route('/tags/<tag>')
 @app.route('/tags/<tag>/<int:page>')
 def tag_page(tag="RMS Titanic", page=0) -> 'html':
-    posts = page_distribution(get_posts_by_tags(tag), page)
+    posts = page_distribution(get_posts_by_tags(tag), int(page))
     pages = list_pages(len(get_posts_by_tags(tag)))
     return render_template('tag_page.html',
                            the_posts = posts,
@@ -37,10 +37,10 @@ def tag_page(tag="RMS Titanic", page=0) -> 'html':
                            the_title = "Поиск по тегу %s" %tag)
 
 @app.route('/search')
-@app.route('/search<req><int:page>')
-def search_page(req="", page=0) -> 'html':
+def search_page() -> 'html':
     req = request.args["search_word"]
-    posts = page_distribution(post_search(req), page)
+    page = (request.args.get("page") if request.args.get("page") else 0)
+    posts = page_distribution(post_search(req), int(page))
     pages = list_pages(len(post_search(req)))
     return render_template('search_page.html',
                            the_posts = posts,
