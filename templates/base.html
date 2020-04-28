@@ -8,6 +8,16 @@
 <body>
   <nav class="navbar fixed-top navbar-dark bg-dark">
     <a class="navbar-brand" href="/">{{ the_title }}</a>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Операции с постами
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/add_post">Добавить</a>
+        <a class="dropdown-item" href="/del_post">Удалить</a>
+        <a class="dropdown-item" href="/edit_post">Редактировать</a>
+      </div>
+    </div>
     <form class="form-inline" method='get' action='/search'>
       <input class="form-control mr-sm-2" type="search" name="search_word" placeholder="Введите значение" aria-label="Search">
       <button class="btn btn-success my-2 my-sm-0" type="submit">Поиск</button>

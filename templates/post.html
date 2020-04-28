@@ -28,6 +28,7 @@
   </div>
 </div>
 {% endif %}
+{% if tags %}
 <nav class="navbar navbar-light bg-light">
   <form class="form-inline">
     {% for tags in the_tags %}
@@ -37,4 +38,5 @@
     {% endfor %}
   </form>
 </nav>
+{% endif %}
 {% endblock %}

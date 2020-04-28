@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from post_functions import get_content, get_posts_by_tags, get_tags_for_post, list_pages, page_distribution, post_info, post_pictures, post_search
+from post_operations import entered_post
 
 app = Flask(__name__)
 
@@ -47,6 +48,19 @@ def search_page() -> 'html':
                            the_pages = pages,
                            the_req = req,
                            the_title = "Поиск по значению %s" %req)
+
+@app.route('/add_post', methods = ["GET", "POST"])
+def add_post_page() -> 'html':
+    if request.method == 'POST':
+        post_name = request.values.get("post_name")
+        post_description = request.values.get("post_description")
+        post_content = request.values.get("post_content")
+        post_tags = (request.values.get("post_tags") if request.values.get("post_tags") else None)
+        post_pictures = ([request.values.get("post_pictures")] if request.values.get("post_pictures") else None)
+        entered_post(post_name, post_description, post_content, post_tags, post_pictures)
+        return redirect("/post/%s" %post_name, code=302)
+    return render_template('add_post.html',
+                           the_title = "Добавление поста")
 
 if __name__ == '__main__':                      #проверка на локальность
     app.run(debug=True)
