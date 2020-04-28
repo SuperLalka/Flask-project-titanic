@@ -119,3 +119,16 @@ def entered_post(post_name, post_description, post_content, post_tags, post_pict
       return img_list
    else:
       return None
+
+def delete_post(name):
+   """Удаляет строку из csv-файла"""
+   with open('post_list.csv', encoding='utf_8') as csv_file:
+      reader = csv.reader(csv_file, delimiter='|')
+      posts = []
+      for row in reader:
+         if name not in row:
+            posts.append(row)
+   with open("post_list.csv", "w", encoding='utf_8', newline='') as csv_file:
+      writer = csv.writer(csv_file, delimiter='|')
+      for row in posts:
+         writer.writerow(row)

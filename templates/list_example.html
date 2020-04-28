@@ -6,6 +6,8 @@
       <h5 class="card-title">{{ post[0] }}</h5>
       <p class="card-text">{{ post[2] }}</p>
       <a href="/post/{{ post[1] }}" class="btn btn-primary">Перейти к статье</a>
+      <a href="/edit_post?post={{ post[1] }}" class="btn btn-success">Редактировать</a>
+      <a href="/del_post?post={{ post[1] }}" class="btn btn-danger">Удалить</a>
     </div>
 </div>
 {% endfor %}
