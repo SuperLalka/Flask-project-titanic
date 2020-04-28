@@ -62,6 +62,16 @@ def add_user_post_page() -> 'html':
     return render_template('add_post.html',
                            the_title = "Добавление поста")
 
+@app.route('/edit_post', methods = ["GET", "POST"])
+def edit_user_post_page() -> 'html':
+    name = request.args["post"]
+    info = get_content(name, post_info())
+    pictures = post_pictures(name)
+    return render_template('edit_page.html',
+                           the_info = info,
+                           the_pictures = pictures,
+                           the_title = "Редактирование поста")
+
 @app.route('/del_post')
 def delete_post_page() -> 'html':
     req = request.args["post"]
