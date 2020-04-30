@@ -1,17 +1,6 @@
 {% extends 'add_post.html' %}
-{% block name %}
-{{ the_info[0] }}
-{% endblock %}
-{% block description %}
-{{ the_info[2] }}
-{% endblock %}
-{% block content %}
-{{ the_info[3] }}
-{% endblock %}
-{% block tags %}
-{{ the_info[4] }}
-{% endblock %}
-{% block pictures %}
-{% for picture in the_pictures %}{{ picture }}
-{% endfor %}
-{% endblock %}
+{% block name %}{{ the_info[0] }}{% endblock %}
+{% block description %}{{ the_info[2] }}{% endblock %}
+{% block content %}{{ the_info[3] }}{% endblock %}
+{% block tags %}{{ the_info[4] }}{% endblock %}
+{% block pictures %}{% for pic in the_pictures %}{{ pic }}{% if pic != the_pictures[-1] %},{% endif %}{% endfor %}{% endblock %}

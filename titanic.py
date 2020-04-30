@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, make_response, render_template, request, redirect
 from post_functions import get_content, get_posts_by_tags, get_tags_for_post, list_pages, page_distribution, post_info, post_pictures, post_search, transliterate
 from post_operations import entered_post, delete_post
 
@@ -86,6 +86,12 @@ def delete_post_page() -> 'html':
     delete_post(req)
     return redirect("/", code=302)
 
+
+@app.route('/cookie/')
+def cookie():
+    res = make_response("Setting a cookie")
+    res.set_cookie('user', 'admin', max_age=60*5)
+    return res
 
 if __name__ == '__main__':                      #проверка на локальность
     app.run(debug=True)
