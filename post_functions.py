@@ -1,8 +1,56 @@
 import csv
 
 POSTS_PER_PAGE = 10
+COMMENTS_PER_PAGE = 7
 
 
+def add_comment(comm_post, comm_time, comm_author, comm_text):
+    """Добавляет комментарии в csv-файл"""
+    if comm_text:
+        comment = [comm_post, comm_time, comm_author, comm_text]
+        with open("comments.csv", "a", encoding='utf_8', newline='') as csv_file:
+            writer = csv.writer(csv_file, delimiter='|')
+            writer.writerow(comment)
+
+
+def get_comments(name):
+    """Возвращает список комментариев к посту"""
+    with open("comments.csv", encoding='utf_8', newline='') as csv_file:
+        reader = csv.reader(csv_file, delimiter='|')
+        found = []
+        for row in reader:
+            for items in row:
+                if name in items:
+                    found.append(row)
+    return found
+
+
+def get_content(key, file):
+    """Получает информацию для страницы поста"""
+    for line in file:
+        if key in line:
+            return line
+
+
+def get_posts_by_tags(tag):
+    """Возвращает список постов по тегу"""
+    found = []
+    for items in post_info():
+        for item in items:
+            if "tags" in item:
+                if tag in item:
+                    found.append(items)
+    return found
+
+
+def get_tags_for_post(post):
+    """Возвращает список тегов поста"""
+    for item in post:
+        if "tags" in item:
+            return item.split(";")[1:]
+    return None
+
+        
 def list_pages(posts_num):
     """Определяет количество страниц"""
     if posts_num % POSTS_PER_PAGE == 0:
@@ -38,32 +86,6 @@ def post_pictures(key):
         for row in reader:
             if row[0] == key:
                 return row[1:]
-
-
-def get_content(key, file):
-    """Получает информацию для страницы поста"""
-    for line in file:
-        if key in line:
-            return line
-
-
-def get_posts_by_tags(tag):
-    """Возвращает список постов по тегу"""
-    found = []
-    for items in post_info():
-        for item in items:
-            if "tags" in item:
-                if tag in item:
-                    found.append(items)
-    return found
-
-
-def get_tags_for_post(post):
-    """Возвращает список тегов поста"""
-    for item in post:
-        if "tags" in item:
-            return item.split(";")[1:]
-    return None
 
 
 def post_search(name):

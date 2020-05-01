@@ -2,7 +2,6 @@ import csv
 from post_functions import transliterate
 
 
-
 def entered_post(post_name, post_description, post_content, post_tags, post_pictures):
    """Функция компилирует введёные пользователем данные и записывает их в список постов и изображений"""
    page_info = []

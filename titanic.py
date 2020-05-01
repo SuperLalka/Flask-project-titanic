@@ -1,6 +1,7 @@
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import get_content, get_posts_by_tags, get_tags_for_post, list_pages, page_distribution, post_info, post_pictures, post_search, transliterate
+from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_pages, page_distribution, post_info, post_pictures, post_search, transliterate
 from post_operations import entered_post, delete_post
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -21,8 +22,10 @@ def post(name) -> 'html':
     info = get_content(name, post_info())
     pictures = post_pictures(name)
     tags = get_tags_for_post(info)
+    comments = get_comments(name)
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
+                           the_comments = comments,
                            the_info = info,
                            the_pictures = pictures,
                            the_tags = tags,
@@ -92,6 +95,17 @@ def cookie():
     res = make_response("Setting a cookie")
     res.set_cookie('user', 'admin', max_age=60*5)
     return res
+
+
+@app.route('/add_сomment', methods = ["GET", "POST"])
+def add_user_comment() -> 'html':
+    comm_post = request.args.get("post")
+    comm_time = datetime.today().strftime("%Y-%m-%d_%H:%M:%S")
+    comm_author = (request.values.get("comm_author") if request.values.get("comm_author") else "Anonimus")
+    comm_text = request.values.get("comm_text")
+    add_comment(comm_post, comm_time, comm_author, comm_text)
+    return redirect("/post/%s" %comm_post, code=302)
+
 
 if __name__ == '__main__':                      #проверка на локальность
     app.run(debug=True)
