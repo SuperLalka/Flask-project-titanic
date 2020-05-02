@@ -50,7 +50,16 @@ def get_tags_for_post(post):
             return item.split(";")[1:]
     return None
 
-        
+
+def list_comments(posts_num):
+    """Определяет количество страниц комментариев"""
+    if posts_num % COMMENTS_PER_PAGE == 0:
+        pages = range(1, (posts_num // COMMENTS_PER_PAGE) + 1)
+    else:
+        pages = range(1, (posts_num // COMMENTS_PER_PAGE) + 2)
+    return list(pages)
+
+
 def list_pages(posts_num):
     """Определяет количество страниц"""
     if posts_num % POSTS_PER_PAGE == 0:
@@ -68,6 +77,15 @@ def page_distribution(posts, num):
         x = (num - 1) * POSTS_PER_PAGE
         return posts[x: POSTS_PER_PAGE + x]
 
+
+def page_comments_distribution(posts, num):
+    """Возвращает срез списка комментариев в зависимости от номера страницы"""
+    if num == 0 or num == 1:
+        return posts[:COMMENTS_PER_PAGE]
+    else:
+        x = (num - 1) * COMMENTS_PER_PAGE
+        return posts[x: COMMENTS_PER_PAGE + x]
+    
 
 def post_info():
     """Извлекает информацию из файла со списками постов"""

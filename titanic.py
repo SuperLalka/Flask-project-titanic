@@ -1,5 +1,5 @@
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_pages, page_distribution, post_info, post_pictures, post_search, transliterate
+from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search, transliterate
 from post_operations import entered_post, delete_post
 from datetime import datetime
 
@@ -18,14 +18,18 @@ def content_page(page=0) -> 'html':
 
 
 @app.route('/post/<name>')
-def post(name) -> 'html':
+@app.route('/post/<name>/<int:page>')
+def post(name, page=0) -> 'html':
     info = get_content(name, post_info())
     pictures = post_pictures(name)
     tags = get_tags_for_post(info)
-    comments = get_comments(name)
+    comm_content = get_comments(name)
+    comment_pages = list_comments(len(comm_content))
+    comments = page_comments_distribution(comm_content, page)
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
                            the_comments = comments,
+                           the_comment_pages = comment_pages,
                            the_info = info,
                            the_pictures = pictures,
                            the_tags = tags,
@@ -35,8 +39,9 @@ def post(name) -> 'html':
 @app.route('/tags/<tag>')
 @app.route('/tags/<tag>/<int:page>')
 def tag_page(tag="RMS Titanic", page=0) -> 'html':
-    posts = page_distribution(get_posts_by_tags(tag), int(page))
-    pages = list_pages(len(get_posts_by_tags(tag)))
+    content = get_posts_by_tags(tag)
+    posts = page_distribution(content, int(page))
+    pages = list_pages(len(content))
     return render_template('tag_page.html',
                            the_posts = posts,
                            the_pages = pages,
