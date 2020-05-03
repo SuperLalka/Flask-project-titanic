@@ -3,13 +3,22 @@
 {% for post in the_posts %}
 <div class="card w-75">
     <div class="card-body">
-      <h5 class="card-title">{{ post[0] }}</h5>
-      <p class="card-text">{{ post[2] }}</p>
-      <a href="/post/{{ post[1] }}" class="btn btn-primary">Перейти к статье</a>
-      {% if request.cookies.get('user') == "admin" %}
-      <a href="/edit_post?post={{ post[1] }}" class="btn btn-success">Редактировать</a>
-      <a href="/del_post?post={{ post[1] }}" class="btn btn-danger">Удалить</a>
-      {% endif %}
+      <div class="container">
+        <div class="row">
+          <div class="col px-0">
+            <h5 class="card-title">{{ post[0] }}</h5>
+          </div>
+          <div class="col">
+            <h5 class="card-title text-right">{% if the_num_comments[the_posts.index(post)] > 0 %}<img class="comm_image float-right mx-3" src="https://pngimage.net/wp-content/uploads/2018/05/commento-png-8.png" alt="comm">{{ the_num_comments[the_posts.index(post)] }}{% endif %}</h5>
+          </div>
+        </div>
+      </div>
+        <p class="card-text">{{ post[2] }}</p>
+        <a href="/post/{{ post[1] }}" class="btn btn-primary">Перейти к статье</a>
+        {% if request.cookies.get('user') == "admin" %}
+        <a href="/edit_post?post={{ post[1] }}" class="btn btn-success">Редактировать</a>
+        <a href="/del_post?post={{ post[1] }}" class="btn btn-danger">Удалить</a>
+        {% endif %}
     </div>
 </div>
 {% endfor %}

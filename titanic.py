@@ -9,11 +9,14 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/<int:page>')
 def content_page(page=0) -> 'html':
-    pages = list_pages(len(post_info()))
-    posts = page_distribution(post_info(), int(page))
+    content = post_info()
+    pages = list_pages(len(content))
+    posts = page_distribution(content, int(page))
+    num_comments = list(map(lambda x: len(get_comments(x)), [post[1] for post in posts]))
     return render_template('root_page.html',
                            the_pages = pages,
                            the_posts = posts,
+                           the_num_comments = num_comments,
                            the_title = "RMS Titanic")
 
 
@@ -42,10 +45,12 @@ def tag_page(tag="RMS Titanic", page=0) -> 'html':
     content = get_posts_by_tags(tag)
     posts = page_distribution(content, int(page))
     pages = list_pages(len(content))
+    num_comments = list(map(lambda x: len(get_comments(x)), [post[1] for post in posts]))
     return render_template('tag_page.html',
                            the_posts = posts,
                            the_pages = pages,
                            the_tag = tag,
+                           the_num_comments = num_comments,
                            the_title = "Поиск по тегу %s" %tag)
 
 
@@ -56,10 +61,12 @@ def search_page() -> 'html':
     active = post_search(req)
     posts = page_distribution(active, int(page))
     pages = list_pages(len(active))
+    num_comments = list(map(lambda x: len(get_comments(x)), [post[1] for post in posts]))
     return render_template('search_page.html',
                            the_posts = posts,
                            the_pages = pages,
                            the_req = req,
+                           the_num_comments = num_comments,
                            the_title = "Поиск по значению %s" %req)
 
 
