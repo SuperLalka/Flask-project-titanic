@@ -75,7 +75,6 @@ def add_posts(N):
       for i in range(N):
          data = down_pages()
          writer.writerow(data)
-   return "Success"
 
 if __name__== "__main__":
    add_posts(int(sys.argv[1]))

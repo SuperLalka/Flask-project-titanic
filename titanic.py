@@ -1,7 +1,9 @@
-from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search, transliterate
-from post_operations import entered_post, delete_post
+from add_posts import add_posts
 from datetime import datetime
+from flask import Flask, make_response, render_template, request, redirect
+from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search, transliterate, visits
+from post_operations import entered_post, delete_post
+
 
 app = Flask(__name__)
 
@@ -29,6 +31,11 @@ def post(name, page=0) -> 'html':
     comm_content = get_comments(name)
     comment_pages = list_comments(len(comm_content))
     comments = page_comments_distribution(comm_content, page)
+    def visits_cookie(name):
+        res = make_response("Visits on pages")
+        res.set_cookie(name, "1", max_age=60*5)
+        return res
+    visits_cookie(name)
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
                            the_comments = comments,
@@ -83,6 +90,11 @@ def add_user_post_page() -> 'html':
     return render_template('add_post.html',
                            the_title = "Добавление поста")
 
+
+@app.route('/add_post_auto')
+def add_posts_auto():
+    add_posts(5)
+    return redirect("/", code=302)
 
 @app.route('/edit_post', methods = ["GET", "POST"])
 def edit_user_post_page() -> 'html':
