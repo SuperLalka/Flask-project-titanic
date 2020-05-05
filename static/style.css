@@ -20,6 +20,6 @@ nav {
   height: 500px;
   margin: auto;
 }
-.comm_image {
+.comm_image, .view_image {
   height: 3vh;
 }

@@ -1,9 +1,10 @@
 from add_posts import add_posts
 from datetime import datetime
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search
+from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search, visits
 from post_operations import entered_post, delete_post
 
+POST_VIEWS = {}
 
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ def content_page(page=0) -> 'html':
                            the_pages = pages,
                            the_posts = posts,
                            the_num_comments = num_comments,
+                           the_visits = POST_VIEWS,
                            the_title = "RMS Titanic")
 
 
@@ -31,6 +33,7 @@ def post(name, page=0) -> 'html':
     comm_content = get_comments(name)
     comment_pages = list_comments(len(comm_content))
     comments = page_comments_distribution(comm_content, page)
+    visits(POST_VIEWS, name)
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
                            the_comments = comments,
@@ -38,6 +41,7 @@ def post(name, page=0) -> 'html':
                            the_info = info,
                            the_pictures = pictures,
                            the_tags = tags,
+                           the_visits = POST_VIEWS[name],
                            the_title = "%s" %get_content(name, post_info())[1])
 
 
@@ -53,6 +57,7 @@ def tag_page(tag="RMS Titanic", page=0) -> 'html':
                            the_pages = pages,
                            the_tag = tag,
                            the_num_comments = num_comments,
+                           the_visits = POST_VIEWS,
                            the_title = "Поиск по тегу %s" %tag)
 
 
@@ -69,6 +74,7 @@ def search_page() -> 'html':
                            the_pages = pages,
                            the_req = req,
                            the_num_comments = num_comments,
+                           the_visits = POST_VIEWS,
                            the_title = "Поиск по значению %s" %req)
 
 

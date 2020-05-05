@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
+<button type="button" class="btn btn-light">
+  Просмотров
+  <span class="badge badge-pill badge-primary">{{ the_visits }}</span>
+</button>
 <div class="text-block">{{ the_info[3] }}</div>
 {% if the_pictures %}
 <div class="container">

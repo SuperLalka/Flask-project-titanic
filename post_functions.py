@@ -135,3 +135,12 @@ def transliterate(name):
     for key in slovar:
         name = name.replace(key, slovar[key])
     return name.lower()
+
+
+def visits(data, name):
+    """Фиксирует количество просмотров страниц (сессионно)"""
+    if data.get(name):
+        data[name] += 1
+    else:
+        data[name] = 1
+    return data
