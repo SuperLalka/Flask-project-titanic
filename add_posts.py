@@ -2,19 +2,19 @@ import csv
 import requests
 import sys
 from bs4 import BeautifulSoup
-from post_functions import transliterate
+from post_functions import post_info
 
 
 def add_posts(N):
    """Cкрипт N раз загружает случайную статью из Википедии"""
+   page_id = int(post_info()[-1][0]) + 1
    def down_pages():
       random_url = 'https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:%D0%A1%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0'
       response = requests.get(random_url)
       soup = BeautifulSoup(response.text, "html.parser")
       page_info = []
+      page_info.append(page_id)
       page_info.append(soup.find("h1", class_="firstHeading").text)                 #Извлекает тайтл
-      link = transliterate(soup.find("h1", class_="firstHeading").text)
-      page_info.append(link)                                                        #Траснлитерирует тайтл для создания ссылки
       
       def description_extraction(soup):
          """Извлекает описание"""
@@ -56,7 +56,7 @@ def add_posts(N):
          """Извлекает ссылки картинок и записывает их в файл"""
          blocks = soup.findAll(class_="infobox-image") + soup.findAll(class_="thumb")
          if blocks:
-            img_list = [link]
+            img_list = [page_id]
             for block in blocks:
                image = block.find("img")
                img_list.append(image.get('src'))
@@ -75,6 +75,8 @@ def add_posts(N):
       for i in range(N):
          data = down_pages()
          writer.writerow(data)
+         page_id += 1
+         
 
 if __name__== "__main__":
    add_posts(int(sys.argv[1]))

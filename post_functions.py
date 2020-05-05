@@ -19,9 +19,8 @@ def get_comments(name):
         reader = csv.reader(csv_file, delimiter='|')
         found = []
         for row in reader:
-            for items in row:
-                if name in items:
-                    found.append(row)
+            if row[0] == name:
+                found.append(row)
     return found
 
 

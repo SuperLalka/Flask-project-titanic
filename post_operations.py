@@ -1,13 +1,11 @@
 import csv
-from post_functions import transliterate
 
 
-def entered_post(post_name, post_description, post_content, post_tags, post_pictures):
+def entered_post(post_id, post_name, post_description, post_content, post_tags, post_pictures):
    """Функция компилирует введёные пользователем данные и записывает их в список постов и изображений"""
    page_info = []
+   page_info.append(post_id)
    page_info.append(post_name)
-   link = transliterate(post_name)
-   page_info.append(link)
    page_info.append(post_description)
    page_info.append(post_content)
 
@@ -20,7 +18,7 @@ def entered_post(post_name, post_description, post_content, post_tags, post_pict
       writer.writerow(page_info)
       
    if post_pictures:
-      img_list = [link]
+      img_list = [post_id]
       for pict in post_pictures.split(","):
          img_list.append(pict)
       with open("post_pictures.csv", "a", encoding='utf_8', newline='') as csv_file:

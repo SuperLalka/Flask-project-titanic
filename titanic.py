@@ -1,7 +1,7 @@
 from add_posts import add_posts
 from datetime import datetime
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search, transliterate, visits
+from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search
 from post_operations import entered_post, delete_post
 
 
@@ -14,7 +14,7 @@ def content_page(page=0) -> 'html':
     content = post_info()
     pages = list_pages(len(content))
     posts = page_distribution(content, int(page))
-    num_comments = list(map(lambda x: len(get_comments(x)), [post[1] for post in posts]))
+    num_comments = list(map(lambda x: len(get_comments(x)), [post[0] for post in posts]))
     return render_template('root_page.html',
                            the_pages = pages,
                            the_posts = posts,
@@ -31,11 +31,6 @@ def post(name, page=0) -> 'html':
     comm_content = get_comments(name)
     comment_pages = list_comments(len(comm_content))
     comments = page_comments_distribution(comm_content, page)
-    def visits_cookie(name):
-        res = make_response("Visits on pages")
-        res.set_cookie(name, "1", max_age=60*5)
-        return res
-    visits_cookie(name)
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
                            the_comments = comments,
@@ -43,7 +38,7 @@ def post(name, page=0) -> 'html':
                            the_info = info,
                            the_pictures = pictures,
                            the_tags = tags,
-                           the_title = "%s" %get_content(name, post_info())[0])
+                           the_title = "%s" %get_content(name, post_info())[1])
 
 
 @app.route('/tags/<tag>')
@@ -52,7 +47,7 @@ def tag_page(tag="RMS Titanic", page=0) -> 'html':
     content = get_posts_by_tags(tag)
     posts = page_distribution(content, int(page))
     pages = list_pages(len(content))
-    num_comments = list(map(lambda x: len(get_comments(x)), [post[1] for post in posts]))
+    num_comments = list(map(lambda x: len(get_comments(x)), [post[0] for post in posts]))
     return render_template('tag_page.html',
                            the_posts = posts,
                            the_pages = pages,
@@ -68,7 +63,7 @@ def search_page() -> 'html':
     active = post_search(req)
     posts = page_distribution(active, int(page))
     pages = list_pages(len(active))
-    num_comments = list(map(lambda x: len(get_comments(x)), [post[1] for post in posts]))
+    num_comments = list(map(lambda x: len(get_comments(x)), [post[0] for post in posts]))
     return render_template('search_page.html',
                            the_posts = posts,
                            the_pages = pages,
@@ -77,18 +72,22 @@ def search_page() -> 'html':
                            the_title = "Поиск по значению %s" %req)
 
 
-@app.route('/add_post', methods = ["GET", "POST"])
+@app.route('/add_post', methods = ["GET"])
 def add_user_post_page() -> 'html':
-    if request.method == 'POST':
-        post_name = request.values.get("post_name")
-        post_description = request.values.get("post_description")
-        post_content = request.values.get("post_content")
-        post_tags = request.values.get("post_tags", default=None)
-        post_pictures = request.values.get("post_pictures", default=None)
-        entered_post(post_name, post_description, post_content, post_tags, post_pictures)
-        return redirect("/post/%s" %transliterate(post_name), code=302)
     return render_template('add_post.html',
                            the_title = "Добавление поста")
+
+@app.route('/add_post', methods = ["POST"])
+def add_user_post() -> 'html':
+    post_id = int(post_info()[-1][0]) + 1
+    post_name = request.values.get("post_name")
+    post_description = request.values.get("post_description")
+    post_content = request.values.get("post_content")
+    post_tags = request.values.get("post_tags", default=None)
+    post_pictures = request.values.get("post_pictures", default=None)
+    entered_post(post_id, post_name, post_description, post_content, post_tags, post_pictures)
+    return redirect("/post/%s" %post_id, code=302)
+    
 
 
 @app.route('/add_post_auto')
