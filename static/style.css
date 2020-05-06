@@ -20,6 +20,9 @@ nav {
   height: 500px;
   margin: auto;
 }
-.comm_image, .view_image {
+.comm_image, .favor_image {
   height: 3vh;
+}
+.view_image {
+  height: 2vh;
 }

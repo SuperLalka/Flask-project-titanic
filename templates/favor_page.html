@@ -1,0 +1,8 @@
+{% extends 'list_example.html' %}
+{% block href %}
+{% if the_pages|length >= 2 %}
+{% for page in the_pages %}
+<li class="page-item"><a class="page-link" href="/favor/{{ page }}">{{ page }}</a></li>
+{% endfor %}
+{% endif %}
+{% endblock %}

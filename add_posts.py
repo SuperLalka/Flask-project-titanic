@@ -7,7 +7,7 @@ from post_functions import post_info
 
 def add_posts(N):
    """Cкрипт N раз загружает случайную статью из Википедии"""
-   page_id = int(post_info()[-1][0]) + 1
+   page_id = int(post_info("post_list.csv")[-1][0]) + 1
    def down_pages():
       random_url = 'https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:%D0%A1%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0'
       response = requests.get(random_url)
@@ -52,7 +52,7 @@ def add_posts(N):
          
       page_info.append(tag_extraction(soup))
       
-      def image_extraction(soup, link):
+      def image_extraction(soup):
          """Извлекает ссылки картинок и записывает их в файл"""
          blocks = soup.findAll(class_="infobox-image") + soup.findAll(class_="thumb")
          if blocks:
@@ -67,7 +67,7 @@ def add_posts(N):
          else:
             return None
          
-      image_extraction(soup, link)
+      image_extraction(soup)
       return page_info
    
    with open("post_list.csv", "a", encoding='utf_8', newline='') as csv_file:

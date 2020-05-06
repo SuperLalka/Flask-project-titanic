@@ -76,7 +76,6 @@ def page_distribution(posts, num):
         x = (num - 1) * POSTS_PER_PAGE
         return posts[x: POSTS_PER_PAGE + x]
 
-
 def page_comments_distribution(posts, num):
     """Возвращает срез списка комментариев в зависимости от номера страницы"""
     if num == 0 or num == 1:
@@ -86,14 +85,21 @@ def page_comments_distribution(posts, num):
         return posts[x: COMMENTS_PER_PAGE + x]
     
 
-def post_info():
+def post_info(file):
     """Извлекает информацию из файла со списками постов"""
-    with open('post_list.csv', encoding='utf_8') as f:
+    with open(file, encoding='utf_8') as f:
         reader = csv.reader(f, delimiter='|')
         posts = []
         for row in reader:
             posts.append(row)
     return posts[1:]
+
+
+def post_distribution(name, post_list):
+    """Извлекает информацию о конкретном посте из списка постов"""
+    for items in post_list:
+        if items[0] == name:
+            return items
 
 
 def post_pictures(key):
@@ -105,11 +111,11 @@ def post_pictures(key):
                 return row[1:]
 
 
-def post_search(name):
+def post_search(name, file):
     """Осуществляет поиск по введённому значению по всему содержанию списков постов"""
     found = []
-    for items in post_info():
-        for item in items:
+    for items in post_info(file):
+        for item in items[1:3]:
             if name in item and items not in found:
                 found.append(items)
     return found
@@ -139,8 +145,5 @@ def transliterate(name):
 
 def visits(data, name):
     """Фиксирует количество просмотров страниц (сессионно)"""
-    if data.get(name):
-        data[name] += 1
-    else:
-        data[name] = 1
+    data[name] = data.get(name, 0) + 1
     return data
