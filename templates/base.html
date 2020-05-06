@@ -15,6 +15,7 @@
         </li>
       </ul>
     </div>
+    {% if request.cookies.get('user') == "admin" %}
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -25,6 +26,7 @@
         <a class="dropdown-item" href="/add_post_auto">Добавить 5 случайных статей из Википедии</a>
       </div>
     </div>
+    {% endif %}
     <form class="form-inline" method='get' action='/search'>
       <input class="form-control mr-sm-2" type="search" name="search_word" placeholder="Введите значение"
              aria-label="Search">
