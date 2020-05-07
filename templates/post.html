@@ -6,25 +6,19 @@
       Просмотров
       <span class="badge badge-pill badge-primary">{{ the_visits }}</span>
     </button>
-    {% if the_checked %}
-    <form class="form-inline" method='post' action='/favor_del?post={{ the_info[0] }}'>
-      <button type="submit" class="btn btn-light">
-        <img
-            class="favor_image mx-3"
-            src="http://s1.iconbird.com/ico/0612/GooglePlusInterfaceIcons/w128h1281338911352heart.png"
-            alt="favor_no">
-      </button>
-    </form>
-    {% else %}
     <form class="form-inline" method='post' action='/favor?post={{ the_info[0] }}'>
       <button type="submit" class="btn btn-light">
         <img
             class="favor_image mx-3"
+            {% if the_checked %}
+            src="http://s1.iconbird.com/ico/0612/GooglePlusInterfaceIcons/w128h1281338911352heart.png"
+            alt="favor_no"
+            {% else %}
             src="http://s1.iconbird.com/ico/2013/3/637/w128h128139396832520.png"
             alt="favor_no">
+        {% endif %}
       </button>
     </form>
-    {% endif %}
   </div>
 </div>
 <div class="text-block">{{ the_info[3] }}</div>

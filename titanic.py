@@ -79,7 +79,7 @@ def search_page() -> 'html':
                            the_visits = POST_VIEWS,
                            the_title = "Поиск по значению %s" %req)
 
-@app.route('/favor', methods = ["GET"])
+@app.route('/favor/', methods = ["GET"])
 @app.route('/favor/<int:page>', methods = ["GET"])
 def favor_page(page=0) -> 'html':
     content = post_info("favor_list.csv")
@@ -97,15 +97,11 @@ def favor_page(page=0) -> 'html':
 @app.route('/favor', methods = ["POST"])
 def favor_page_add() -> 'html':
     name = request.args["post"]
-    post = post_distribution(name, post_info("post_list.csv"))
-    add_favor(post)
-    return redirect("/favor", code=302)
-
-
-@app.route('/favor_del', methods = ["POST"])
-def favor_page_delete() -> 'html':
-    name = request.args["post"]
-    del_favor(name)
+    if post_distribution(name, post_info("favor_list.csv")):
+        del_favor(name)
+    else:
+        post = post_distribution(name, post_info("post_list.csv"))
+        add_favor(post)
     return redirect("/favor", code=302)
 
 
