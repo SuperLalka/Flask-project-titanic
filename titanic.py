@@ -1,7 +1,7 @@
 from add_posts import add_posts
 from datetime import datetime
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_distribution, post_info, post_pictures, post_search, visits
+from post_functions import add_comment, del_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_distribution, post_info, post_pictures, post_search, visits
 from post_operations import add_favor, del_favor, entered_post, delete_post
 
 POST_VIEWS = {}
@@ -47,6 +47,13 @@ def post(name, page=0) -> 'html':
                            the_title = "%s" %get_content(name, post_info("post_list.csv"))[1])
 
 
+@app.route('/post_del')
+def delete_post_page() -> 'html':
+    name = request.args["post"]
+    delete_post(name)
+    return redirect("/", code=302)
+
+
 @app.route('/tags/<tag>')
 @app.route('/tags/<tag>/<int:page>')
 def tag_page(tag="RMS Titanic", page=0) -> 'html':
@@ -78,6 +85,7 @@ def search_page() -> 'html':
                            the_num_comments = num_comments,
                            the_visits = POST_VIEWS,
                            the_title = "Поиск по значению %s" %req)
+
 
 @app.route('/favor/', methods = ["GET"])
 @app.route('/favor/<int:page>', methods = ["GET"])
@@ -140,28 +148,30 @@ def edit_user_post_page() -> 'html':
                            the_title = "Редактирование поста")
 
 
-@app.route('/del_post')
-def delete_post_page() -> 'html':
-    req = request.args["post"]
-    delete_post(req)
-    return redirect("/", code=302)
-
-
-@app.route('/cookie/')
+@app.route('/cookie', methods = ["POST"])
 def cookie():
-    res = make_response("Setting a cookie")
+    res = make_response(redirect("/", code=302))
     res.set_cookie('user', 'admin', max_age=60*5)
     return res
 
 
-@app.route('/add_сomment', methods = ["GET", "POST"])
+@app.route('/сomm_add', methods = ["POST"])
 def add_user_comment() -> 'html':
+    comm_id = int(post_info("comments.csv")[-1][0]) + 1
     comm_post = request.args.get("post")
     comm_time = datetime.today().strftime("%Y-%m-%d_%H:%M:%S")
     comm_author = (request.values.get("comm_author") if request.values.get("comm_author") else "Anonimus")
     comm_text = request.values.get("comm_text")
-    add_comment(comm_post, comm_time, comm_author, comm_text)
+    add_comment(comm_id, comm_post, comm_time, comm_author, comm_text)
     return redirect("/post/%s" %comm_post, code=302)
+
+
+@app.route('/comm_del', methods = ["POST"])
+def delete_user_comment() -> 'html':
+    comm_id = request.args.get("comm_id")
+    post = request.args.get("post")
+    del_comment(comm_id)
+    return redirect("/post/%s" %post, code=302)
 
 
 if __name__ == '__main__':                      #проверка на локальность

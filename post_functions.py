@@ -4,14 +4,29 @@ POSTS_PER_PAGE = 10
 COMMENTS_PER_PAGE = 7
 
 
-def add_comment(comm_post, comm_time, comm_author, comm_text):
+def add_comment(comm_id, comm_post, comm_time, comm_author, comm_text):
     """Добавляет комментарии в csv-файл"""
     if comm_text:
-        comment = [comm_post, comm_time, comm_author, comm_text]
+        comment = [comm_id, comm_post, comm_time, comm_author, comm_text]
         with open("comments.csv", "a", encoding='utf_8', newline='') as csv_file:
             writer = csv.writer(csv_file, delimiter='|')
             writer.writerow(comment)
 
+
+def del_comment(id_comm):
+    """Удаляет комментарий из csv-файла"""
+    with open('comments.csv', encoding='utf_8') as csv_file:
+      reader = csv.reader(csv_file, delimiter='|')
+      comms = []
+      for row in reader:
+         if id_comm != row[0]:
+            comms.append(row)
+            
+    with open("comments.csv", "w", encoding='utf_8', newline='') as csv_file:
+        writer = csv.writer(csv_file, delimiter='|')
+        for row in comms:
+            writer.writerow(row)
+            
 
 def get_comments(name):
     """Возвращает список комментариев к посту"""
@@ -19,7 +34,7 @@ def get_comments(name):
         reader = csv.reader(csv_file, delimiter='|')
         found = []
         for row in reader:
-            if row[0] == name:
+            if row[1] == name:
                 found.append(row)
     return found
 

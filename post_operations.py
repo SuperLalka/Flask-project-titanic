@@ -82,7 +82,7 @@ def delete_post(name):
       reader = csv.reader(csv_file, delimiter='|')
       posts = []
       for row in reader:
-         if name != row[0]:
+         if name != row[1]:
             posts.append(row)
             
    with open("comments.csv", "w", encoding='utf_8', newline='') as csv_file:

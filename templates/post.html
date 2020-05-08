@@ -9,13 +9,13 @@
     <form class="form-inline" method='post' action='/favor?post={{ the_info[0] }}'>
       <button type="submit" class="btn btn-light">
         <img
-            class="favor_image mx-3"
-            {% if the_checked %}
-            src="http://s1.iconbird.com/ico/0612/GooglePlusInterfaceIcons/w128h1281338911352heart.png"
-            alt="favor_no"
-            {% else %}
-            src="http://s1.iconbird.com/ico/2013/3/637/w128h128139396832520.png"
-            alt="favor_no">
+                class="favor_image mx-3"
+                {% if the_checked %}
+                src="http://s1.iconbird.com/ico/0612/GooglePlusInterfaceIcons/w128h1281338911352heart.png"
+                alt="favor_no"
+                {% else %}
+                src="http://s1.iconbird.com/ico/2013/3/637/w128h128139396832520.png"
+                alt="favor_no">
         {% endif %}
       </button>
     </form>
@@ -61,7 +61,7 @@
     </nav>
   </div>
   {% endif %}
-  <form method='post' action='/add_сomment?post={{ the_info[0] }}'>
+  <form method='post' action='/сomm_add?post={{ the_info[0] }}'>
     <div class="row justify-content-center my-3">
       <div class="col-7">
         <div class="form-group">
@@ -78,12 +78,13 @@
   <div class="row justify-content-center">
     <div class="card w-75">
       <div class="card-body">
-        <h5 class="card-title">{{ comments[2] }}</h5>
-        <p class="card-text">{{ comments[1] }}</p>
-        <p class="card-text">{{ comments[3] }}</p>
+        <h5 class="card-title">{{ comments[3] }}</h5>
+        <p class="card-text">{{ comments[2] }}</p>
+        <p class="card-text">{{ comments[4] }}</p>
         {% if request.cookies.get('user') == "admin" %}
-        <a href="/edit_comm?post={{ comments[0] }}" class="btn btn-success">Редактировать</a>
-        <a href="/del_comm?post={{ comments[0] }}" class="btn btn-danger">Удалить</a>
+        <form method='post' action="/comm_del?comm_id={{ comments[0] }}&post={{ comments[1] }}">
+          <button class="btn btn-sm btn-danger" type="submit">Удалить</button>
+        </form>
         {% endif %}
       </div>
     </div>
