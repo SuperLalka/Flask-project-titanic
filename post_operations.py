@@ -22,6 +22,7 @@ def del_favor(name):
       for row in posts:
          writer.writerow(row)
 
+   
 def entered_post(post_id, post_name, post_description, post_content, post_tags, post_pictures):
    """Функция компилирует введёные пользователем данные и записывает их в список постов и изображений"""
    page_info = []
@@ -30,8 +31,11 @@ def entered_post(post_id, post_name, post_description, post_content, post_tags, 
    page_info.append(post_description)
    page_info.append(post_content)
 
-   if "tags" not in post_tags.split(";"):
-      post_tags = "tags;" + post_tags
+   if post_tags:
+      if "tags" not in post_tags.split(";"):
+         post_tags = "tags;" + post_tags
+   else:
+      post_tags = None
    page_info.append(post_tags)
    
    with open("post_list.csv", "a", encoding='utf_8', newline='') as csv_file:
@@ -86,6 +90,21 @@ def delete_post(name):
             posts.append(row)
             
    with open("comments.csv", "w", encoding='utf_8', newline='') as csv_file:
+      writer = csv.writer(csv_file, delimiter='|')
+      for row in posts:
+         writer.writerow(row)
+
+
+def delete_post_string(name, file):
+   """Удаляет строчку csv-файла"""
+   with open(file, encoding='utf_8') as csv_file:
+      reader = csv.reader(csv_file, delimiter='|')
+      posts = []
+      for row in reader:
+         if name != row[0]:
+            posts.append(row)
+            
+   with open(file, "w", encoding='utf_8', newline='') as csv_file:
       writer = csv.writer(csv_file, delimiter='|')
       for row in posts:
          writer.writerow(row)

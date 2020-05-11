@@ -1,5 +1,6 @@
-{% extends 'add_post.html' %}
-{% block name %}{{ the_info[0] }}{% endblock %}
+{% extends 'post_constr.html' %}
+{% block action %}<form onsubmit="event.preventDefault();xhr = new XMLHttpRequest();xhr.open('PUT', '/post/{{ the_info[0] }}');xhr.send(new FormData(event.target));">{% endblock %}
+{% block name %}{{ the_info[1] }}{% endblock %}
 {% block description %}{{ the_info[2] }}{% endblock %}
 {% block content %}{{ the_info[3] }}{% endblock %}
 {% block tags %}{{ the_info[4] }}{% endblock %}

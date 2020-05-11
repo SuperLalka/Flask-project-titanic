@@ -46,6 +46,17 @@ def get_content(key, file):
             return line
 
 
+def get_id_comment():
+    """Получает ID для комментария"""
+    with open("comments.csv", encoding='utf_8') as csv_file:
+        reader = csv.reader(csv_file, delimiter='|')
+        id_list = [int(row[0]) for row in reader]
+        if len(id_list) == 1:
+            return 1
+        else:
+            return min(set(range(1, len(id_list) + 1)).difference(set(id_list[1:])))
+
+
 def get_posts_by_tags(tag):
     """Возвращает список постов по тегу"""
     found = []

@@ -17,16 +17,30 @@
       </div>
     </div>
     <p class="card-text">{{ post[2] }}</p>
-    <a href="/post/{{ post[0] }}" class="btn btn-primary">Перейти к статье</a>
-    {% if request.cookies.get('user') == "admin" %}
-    <a href="/edit_post?post={{ post[0] }}" class="btn btn-success">Редактировать</a>
-    <a href="/post_del?post={{ post[0] }}" class="btn btn-danger">Удалить</a>
-    {% endif %}
-    <button type="button" class="btn btn-sm btn-light float-right" disabled>
-      <img class="view_image float-left mx-1" src="https://cdn.pixabay.com/photo/2016/12/18/11/04/eye-1915454_1280.png"
-           alt="view">
-      <span class="badge align-top badge-info">{{ the_visits[post[0]] }}</span>
-    </button>
+    <div class="row">
+      <div class="col-auto">
+        <a href="/post/{{ post[0] }}" class="btn btn-primary">Перейти к статье</a>
+      </div>
+      {% if request.cookies.get('user') == "admin" %}
+      <div class="col-auto">
+        <a href="/edit_post/{{ post[0] }}" class="btn btn-outline-success">Редактировать</a>
+      </div>
+      <div class="col-auto">
+        <form class="form"
+              onsubmit="xhr = new XMLHttpRequest();xhr.open('DELETE', '/post/{{ post[0] }}'); xhr.send();">
+          <button type="submit" class="btn btn-outline-danger">Удалить</button>
+        </form>
+      </div>
+      {% endif %}
+      <div class="col">
+        <span class="badge badge-pill float-right">
+          <img class="view_image float-left mx-1"
+               src="https://cdn.pixabay.com/photo/2016/12/18/11/04/eye-1915454_1280.png"
+               alt="view">
+          <p class="badge badge-light visits-num">{{ the_visits[post[0]] }}</p>
+        </span>
+      </div>
+    </div>
   </div>
 </div>
 {% endfor %}

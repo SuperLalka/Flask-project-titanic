@@ -1,8 +1,8 @@
 from add_posts import add_posts
 from datetime import datetime
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, del_comment, get_comments, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_distribution, post_info, post_pictures, post_search, visits
-from post_operations import add_favor, del_favor, entered_post, delete_post
+from post_functions import add_comment, del_comment, get_comments, get_id_comment, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_distribution, post_info, post_pictures, post_search, visits
+from post_operations import add_favor, del_favor, entered_post, delete_post, delete_post_string
 
 POST_VIEWS = {}
 
@@ -24,8 +24,8 @@ def content_page(page=0) -> 'html':
                            the_title = "RMS Titanic")
 
 
-@app.route('/post/<name>')
-@app.route('/post/<name>/<int:page>')
+@app.route('/post/<name>', methods = ["GET"])
+@app.route('/post/<name>/<int:page>', methods = ["GET"])
 def post(name, page=0) -> 'html':
     info = get_content(name, post_info("post_list.csv"))
     pictures = post_pictures(name)
@@ -47,9 +47,8 @@ def post(name, page=0) -> 'html':
                            the_title = "%s" %get_content(name, post_info("post_list.csv"))[1])
 
 
-@app.route('/post_del')
-def delete_post_page() -> 'html':
-    name = request.args["post"]
+@app.route('/post/<name>', methods = ["DELETE"])
+def delete_post_page(name) -> 'html':
     delete_post(name)
     return redirect("/", code=302)
 
@@ -115,7 +114,7 @@ def favor_page_add() -> 'html':
 
 @app.route('/add_post', methods = ["GET"])
 def add_user_post_page() -> 'html':
-    return render_template('add_post.html',
+    return render_template('add_page.html',
                            the_title = "Добавление поста")
 
 
@@ -137,15 +136,26 @@ def add_posts_auto():
     return redirect("/", code=302)
 
 
-@app.route('/edit_post', methods = ["GET", "POST"])
-def edit_user_post_page() -> 'html':
-    name = request.args["post"]
-    info = get_content(name, post_info("post_list.csv"))
-    pictures = post_pictures(name)
+@app.route('/edit_post/<id_post>', methods = ["GET"])
+def edit_user_post_page(id_post) -> 'html':
+    info = get_content(id_post, post_info("post_list.csv"))
+    pictures = post_pictures(id_post)
     return render_template('edit_page.html',
                            the_info = info,
                            the_pictures = pictures,
                            the_title = "Редактирование поста")
+
+
+@app.route('/edit_post/<id_post>', methods = ["PUT"])
+def edit_user_post() -> 'html':
+    post_name = request.values.get("post_name")
+    post_description = request.values.get("post_description")
+    post_content = request.values.get("post_content")
+    post_tags = request.values.get("post_tags", None)
+    post_pictures = request.values.get("post_pictures", None)
+    delete_post_string(id_post, "post_list.csv")
+    entered_post(id_post, post_name, post_description, post_content, post_tags, post_pictures)
+    return redirect("/post/%s" %id_post, code=302)
 
 
 @app.route('/cookie', methods = ["POST"])
@@ -157,7 +167,7 @@ def cookie():
 
 @app.route('/сomm_add', methods = ["POST"])
 def add_user_comment() -> 'html':
-    comm_id = int(post_info("comments.csv")[-1][0]) + 1
+    comm_id = get_id_comment()
     comm_post = request.args.get("post")
     comm_time = datetime.today().strftime("%Y-%m-%d_%H:%M:%S")
     comm_author = (request.values.get("comm_author") if request.values.get("comm_author") else "Anonimus")
