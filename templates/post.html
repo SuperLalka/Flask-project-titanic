@@ -11,11 +11,13 @@
         <img
                 class="favor_image mx-3"
                 {% if the_checked %}
+                {% if the_info[0] in the_checked %}
                 src="http://s1.iconbird.com/ico/0612/GooglePlusInterfaceIcons/w128h1281338911352heart.png"
                 alt="favor_no"
                 {% else %}
                 src="http://s1.iconbird.com/ico/2013/3/637/w128h128139396832520.png"
                 alt="favor_no">
+        {% endif %}
         {% endif %}
       </button>
     </form>

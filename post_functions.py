@@ -57,10 +57,10 @@ def get_id_comment():
             return min(set(range(1, len(id_list) + 1)).difference(set(id_list[1:])))
 
 
-def get_posts_by_tags(tag):
+def get_posts_by_tags(tag, file):
     """Возвращает список постов по тегу"""
     found = []
-    for items in post_info():
+    for items in post_info(file):
         for item in items:
             if "tags" in item:
                 if tag in item:
@@ -119,13 +119,6 @@ def post_info(file):
         for row in reader:
             posts.append(row)
     return posts[1:]
-
-
-def post_distribution(name, post_list):
-    """Извлекает информацию о конкретном посте из списка постов"""
-    for items in post_list:
-        if items[0] == name:
-            return items
 
 
 def post_pictures(key):

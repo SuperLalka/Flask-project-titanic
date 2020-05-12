@@ -1,28 +1,20 @@
 import csv
 
 
-def add_favor(post):
-   """Функция записывает пост в csv-файл со списком избранных постов"""
-   with open("favor_list.csv", "a", encoding='utf_8', newline='') as csv_file:
-      writer = csv.writer(csv_file, delimiter='|')
-      writer.writerow(post)
+def add_favor(post, cookie):
+   """Функция записывает пост в куки со списком избранных постов"""
+   return cookie + "/" + post
 
 
-def del_favor(name):
-   """Функция удаляет пост из csv-файла со списком избранных постов"""
-   with open('favor_list.csv', encoding='utf_8') as csv_file:
-      reader = csv.reader(csv_file, delimiter='|')
-      posts = []
-      for row in reader:
-         if name != row[0]:
-            posts.append(row)
-            
-   with open("favor_list.csv", "w", encoding='utf_8', newline='') as csv_file:
-      writer = csv.writer(csv_file, delimiter='|')
-      for row in posts:
-         writer.writerow(row)
+def del_favor(post, cookie):
+   """Функция удаляет пост из куки со списком избранных постов"""
+   new_cookie = []
+   for item in cookie.split("/"):
+      if item != post:
+         new_cookie.append(item)
+   return "/".join(new_cookie)
+      
 
-   
 def entered_post(post_id, post_name, post_description, post_content, post_tags, post_pictures):
    """Функция компилирует введёные пользователем данные и записывает их в список постов и изображений"""
    page_info = []

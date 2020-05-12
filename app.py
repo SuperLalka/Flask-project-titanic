@@ -1,7 +1,7 @@
 from add_posts import add_posts
 from datetime import datetime
 from flask import Flask, make_response, render_template, request, redirect
-from post_functions import add_comment, del_comment, get_comments, get_id_comment, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_distribution, post_info, post_pictures, post_search, visits
+from post_functions import add_comment, del_comment, get_comments, get_id_comment, get_content, get_posts_by_tags, get_tags_for_post, list_comments, list_pages, page_comments_distribution, page_distribution, post_info, post_pictures, post_search, visits
 from post_operations import add_favor, del_favor, entered_post, delete_post, delete_post_string
 
 POST_VIEWS = {}
@@ -34,7 +34,15 @@ def post(name, page=0) -> 'html':
     comment_pages = list_comments(len(comm_content))
     comments = page_comments_distribution(comm_content, page)
     visits(POST_VIEWS, name)
-    checked = post_distribution(name, post_info("favor_list.csv"))
+
+    def favor_check():
+        if request.cookies.get('favor'):
+            return (request.cookies.get('favor')).split("/")
+        else:
+            return False
+
+    checked = favor_check()
+    
     return render_template('post.html',
                            navbar = "Вернуться к содержанию",
                            the_checked = checked,
@@ -56,7 +64,7 @@ def delete_post_page(name) -> 'html':
 @app.route('/tags/<tag>')
 @app.route('/tags/<tag>/<int:page>')
 def tag_page(tag="RMS Titanic", page=0) -> 'html':
-    content = get_posts_by_tags(tag)
+    content = get_posts_by_tags(tag, "post_list.csv")
     posts = page_distribution(content, int(page))
     pages = list_pages(len(content))
     num_comments = list(map(lambda x: len(get_comments(x)), [post[0] for post in posts]))
@@ -89,27 +97,40 @@ def search_page() -> 'html':
 @app.route('/favor/', methods = ["GET"])
 @app.route('/favor/<int:page>', methods = ["GET"])
 def favor_page(page=0) -> 'html':
-    content = post_info("favor_list.csv")
-    pages = list_pages(len(content))
-    posts = page_distribution(content, int(page))
-    num_comments = list(map(lambda x: len(get_comments(x)), [post[0] for post in posts]))
-    return render_template('favor_page.html',
-                           the_posts = posts,
-                           the_pages = pages,
-                           the_num_comments = num_comments,
-                           the_visits = POST_VIEWS,
-                           the_title = "Избранные посты")
+    if request.cookies.get('favor'):
+        favor_cookie = (request.cookies.get('favor')).split("/")
+        content = [get_content(name, post_info("post_list.csv")) for name in favor_cookie]
+        pages = list_pages(len(content))
+        posts = page_distribution(content, int(page))
 
+        if posts:
+            num_comments = list(map(lambda x: len(get_comments(x)), [post[0] for post in posts]))
+        else:
+            num_comments = False
+        
+        return render_template('favor_page.html',
+                                the_posts = posts,
+                                the_pages = pages,
+                                the_num_comments = num_comments,
+                                the_visits = POST_VIEWS,
+                                the_title = "Избранные посты")
+    return render_template('favor_page.html',
+                           the_title = "Список избранных пуст")
 
 @app.route('/favor', methods = ["POST"])
 def favor_page_add() -> 'html':
     name = request.args["post"]
-    if post_distribution(name, post_info("favor_list.csv")):
-        del_favor(name)
+    res = make_response(redirect("/post/%s" %name, code=302))
+    if not request.cookies.get('favor'):
+        res.set_cookie('favor', '%s' %name, max_age=60*60*24)
+        return res
     else:
-        post = post_distribution(name, post_info("post_list.csv"))
-        add_favor(post)
-    return redirect("/favor", code=302)
+        value = request.cookies.get('favor')
+        if name in value.split("/"):
+            res.set_cookie('favor', '%s' %del_favor(name, value), max_age=60*60*24)
+        else:
+            res.set_cookie('favor', '%s' %add_favor(name, value), max_age=60*60*24)
+        return res
 
 
 @app.route('/add_post', methods = ["GET"])
@@ -159,7 +180,7 @@ def edit_user_post() -> 'html':
 
 
 @app.route('/cookie', methods = ["POST"])
-def cookie():
+def get_admin_rights():
     res = make_response(redirect("/", code=302))
     res.set_cookie('user', 'admin', max_age=60*5)
     return res
