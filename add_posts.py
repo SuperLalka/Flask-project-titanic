@@ -61,7 +61,7 @@ def add_posts(N):
                image = block.find("img")
                img_list.append(image.get('src'))
             with open("post_pictures.csv", "a", encoding='utf_8', newline='') as csv_file:
-               writer = csv.writer(csv_file)
+               writer = csv.writer(csv_file, delimiter='|')
                writer.writerow(img_list)
             return img_list
          else:

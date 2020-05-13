@@ -7,7 +7,7 @@ COMMENTS_PER_PAGE = 7
 def add_comment(comm_id, comm_post, comm_time, comm_author, comm_text):
     """Добавляет комментарии в csv-файл"""
     if comm_text:
-        comment = [comm_id, comm_post, comm_time, comm_author, comm_text]
+        comment = [comm_post, comm_id, comm_time, comm_author, comm_text]
         with open("comments.csv", "a", encoding='utf_8', newline='') as csv_file:
             writer = csv.writer(csv_file, delimiter='|')
             writer.writerow(comment)
@@ -19,7 +19,7 @@ def del_comment(id_comm):
       reader = csv.reader(csv_file, delimiter='|')
       comms = []
       for row in reader:
-         if id_comm != row[0]:
+         if id_comm != row[1]:
             comms.append(row)
             
     with open("comments.csv", "w", encoding='utf_8', newline='') as csv_file:
@@ -34,7 +34,7 @@ def get_comments(name):
         reader = csv.reader(csv_file, delimiter='|')
         found = []
         for row in reader:
-            if row[1] == name:
+            if row[0] == name:
                 found.append(row)
     return found
 
@@ -50,7 +50,7 @@ def get_id_comment():
     """Получает ID для комментария"""
     with open("comments.csv", encoding='utf_8') as csv_file:
         reader = csv.reader(csv_file, delimiter='|')
-        id_list = [int(row[0]) for row in reader]
+        id_list = [int(row[1]) for row in reader]
         if len(id_list) == 1:
             return 1
         else:
@@ -124,7 +124,7 @@ def post_info(file):
 def post_pictures(key):
     """Извлекает и привязывает изображения к постам"""
     with open("post_pictures.csv", encoding='utf_8', newline='') as csv_file:
-        reader = csv.reader(csv_file)
+        reader = csv.reader(csv_file, delimiter='|')
         for row in reader:
             if row[0] == key:
                 return row[1:]

@@ -84,7 +84,7 @@
         <p class="card-text">{{ comments[2] }}</p>
         <p class="card-text">{{ comments[4] }}</p>
         {% if request.cookies.get('user') == "admin" %}
-        <form method='post' action="/comm_del?comm_id={{ comments[0] }}&post={{ comments[1] }}">
+        <form method='post' action="/comm_del?comm_id={{ comments[1] }}&post={{ comments[0] }}">
           <button class="btn btn-sm btn-danger" type="submit">Удалить</button>
         </form>
         {% endif %}

@@ -35,11 +35,12 @@ def entered_post(post_id, post_name, post_description, post_content, post_tags, 
       writer.writerow(page_info)
       
    if post_pictures:
-      img_list = [post_id]
+      img_list = []
       for pict in post_pictures.split(","):
          img_list.append(pict)
+      img_list.insert(post_id, 1)
       with open("post_pictures.csv", "a", encoding='utf_8', newline='') as csv_file:
-         writer = csv.writer(csv_file)
+         writer = csv.writer(csv_file, delimiter='|')
          writer.writerow(img_list)
       return img_list
    else:
@@ -47,44 +48,19 @@ def entered_post(post_id, post_name, post_description, post_content, post_tags, 
 
 
 def delete_post(name):
-   """Удаляет строку из csv-файла списка постов"""
-   with open('post_list.csv', encoding='utf_8') as csv_file:
-      reader = csv.reader(csv_file, delimiter='|')
-      posts = []
-      for row in reader:
-         if name != row[0]:
-            posts.append(row)
-            
-   with open("post_list.csv", "w", encoding='utf_8', newline='') as csv_file:
-      writer = csv.writer(csv_file, delimiter='|')
-      for row in posts:
-         writer.writerow(row)
-         
-   """Удаляет строку из csv-файла списка изображений"""
-   with open('post_pictures.csv', encoding='utf_8') as csv_file:
-      reader = csv.reader(csv_file)
-      posts = []
-      for row in reader:
-         if name != row[0]:
-            posts.append(row)
-            
-   with open("post_pictures.csv", "w", encoding='utf_8', newline='') as csv_file:
-      writer = csv.writer(csv_file)
-      for row in posts:
-         writer.writerow(row)
-         
-   """Удаляет строки из csv-файла списка комментариев"""
-   with open('comments.csv', encoding='utf_8') as csv_file:
-      reader = csv.reader(csv_file, delimiter='|')
-      posts = []
-      for row in reader:
-         if name != row[1]:
-            posts.append(row)
-            
-   with open("comments.csv", "w", encoding='utf_8', newline='') as csv_file:
-      writer = csv.writer(csv_file, delimiter='|')
-      for row in posts:
-         writer.writerow(row)
+   """Удаляет строку из csv-файла списка постов, изображений и комментариев"""
+   files = ['post_list.csv', 'post_pictures.csv', "comments.csv"]
+   for file in files:
+      with open(file, encoding='utf_8') as csv_file:
+         reader = csv.reader(csv_file, delimiter='|')
+         posts = []
+         for row in reader:
+            if name != row[0]:
+               posts.append(row)
+      with open(file, "w", encoding='utf_8', newline='') as csv_file:
+         writer = csv.writer(csv_file, delimiter='|')
+         for row in posts:
+            writer.writerow(row)
 
 
 def delete_post_string(name, file):
